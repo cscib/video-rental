@@ -1,3 +1,4 @@
+
 package com.cscib.videorental;
 
 import org.springframework.boot.SpringApplication;

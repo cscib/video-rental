@@ -16,7 +16,7 @@ import javax.persistence.Transient;
 public class RentalTypes implements Persistable<Integer> {
 
     @Id
-    private Integer type;
+    private Integer rentalType;
 
     private String desc;
 
@@ -25,7 +25,7 @@ public class RentalTypes implements Persistable<Integer> {
 
     @Override
     public Integer getId() {
-        return type;
+        return rentalType;
     }
 
     @Override

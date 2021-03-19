@@ -19,7 +19,7 @@ gradle build && docker build -t java-app/latest .
 
 2. To launch on docker (Spring Boot and MySQL processes)
 
-docker-compose up
+docker-compose up -d
 
 ## Additional Checks
 -----------------
