@@ -1,4 +1,4 @@
-package com.cscib.videorental.model;
+package com.cscib.videorental.data.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

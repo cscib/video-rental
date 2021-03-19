@@ -1,6 +1,6 @@
-package com.cscib.videorental.repositories;
+package com.cscib.videorental.data.repositories;
 
-import com.cscib.videorental.model.Movie;
+import com.cscib.videorental.data.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

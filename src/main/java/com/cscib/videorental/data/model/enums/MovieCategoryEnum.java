@@ -1,11 +1,11 @@
-package com.cscib.videorental.model.enums;
+package com.cscib.videorental.data.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MovieTypeEnum {
+public enum MovieCategoryEnum {
 
     NEW_RELEASE(0, "NEW RELEASE"),
     REGULAR(1,"REGULAR"),
