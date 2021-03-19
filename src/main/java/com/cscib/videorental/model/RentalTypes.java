@@ -1,6 +1,8 @@
 package com.cscib.videorental.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.Entity;
@@ -11,19 +13,19 @@ import javax.persistence.Transient;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Movie  implements Persistable<String> {
+public class RentalTypes implements Persistable<Integer> {
 
     @Id
-    private String name;
+    private Integer type;
 
-    private int type;
+    private String desc;
 
     @Transient
     private boolean isNew = false;
 
     @Override
-    public String getId() {
-        return name;
+    public Integer getId() {
+        return type;
     }
 
     @Override

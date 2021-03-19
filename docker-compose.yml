@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  myapp-mysql:
+    image: mysql:8.0.23
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=videorentals
+      - MYSQL_USER=video
+      - MYSQL_PASSWORD=video123!
+    ports:
+      - 3309:3306
+
+  myapp-main:
+    image: java-app/latest
+    depends_on:
+      - myapp-mysql
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=myapp-mysql
+      - DATABASE_USER=video
+      - DATABASE_PASSWORD=video123!
+      - DATABASE_NAME=videorentals
+      - DATABASE_PORT=3309
