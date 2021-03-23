@@ -26,3 +26,22 @@ docker-compose up -d
 1. To check DB instance [use password 'video123!']
 mysql -u video -p --protocol=TCP --port=3309
 
+## Assumptions
+-----------------
+1. A person will return all the items rented at one go not x items today and y items tomorrow.
+
+## Movies API
+
+ - `POST    /v1/movie/create`
+ - `GET     /v1//movie/all`
+ - `GET     /v1//movie/{movieId}`
+
+
+## Example
+
+To create a movie:
+
+`curl -H "Content-Type: application/json" -X POST --data-binary @movie.json http://localhost:8080/v1/movie/create`
+
+Returned:
+

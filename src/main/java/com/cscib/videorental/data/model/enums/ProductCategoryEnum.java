@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ProductCategoryEnum {
 
-    PREMIUM_PRICE(0, "Premium Price"),
-    BASIC_PRICE(1,"Regular Price");
+    PREMIUM_PRICE(0, "Premium Category"),
+    BASIC_PRICE(1,"Regular Category");
 
     private int id;
 

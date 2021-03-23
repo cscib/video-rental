@@ -8,23 +8,25 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
 @Entity
-@Table(name="price")
-public class Price {
+@Table(name="category")
+public class Category {
 
     @Id
     private String id;
 
-    private String category;
+    private Price price;
 
-    private BigDecimal amount;
+    private Bonus bonus;
 
-    private String currency;
+    // product (basic, premium> or movie (new release, old)
+    private String type;
+
+
 }
 

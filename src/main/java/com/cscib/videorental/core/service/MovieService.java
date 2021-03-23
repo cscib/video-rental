@@ -1,12 +1,14 @@
 package com.cscib.videorental.core.service;
 
 import com.cscib.videorental.data.model.Movie;
-import com.cscib.videorental.data.repositories.MovieRepository;
+import com.cscib.videorental.data.repository.MovieRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Component
@@ -15,17 +17,15 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public Movie saveMovie(Movie movie){
-        return null;
+    public Movie saveMovie(Movie movie) throws Exception {
+        return Optional.of(movieRepository.save(movie)).orElseThrow(PersistenceException::new);
     }
 
     public Movie getMovie(String movieId){
-        return null;
+        return Optional.of(movieRepository.getOne(movieId)).orElseThrow(PersistenceException::new);
     }
 
-
     public List<Movie> getMovies() {
-
-        return null;
+        return Optional.of(movieRepository.findAll()).orElseThrow(PersistenceException::new);
     }
 }
