@@ -9,6 +9,7 @@ import com.cscib.videorental.data.model.mapper.RentMoviesMapper;
 import com.cscib.videorental.data.repository.ClientRepository;
 import com.cscib.videorental.data.repository.PaymentRepository;
 import com.cscib.videorental.data.repository.RentalRepository;
+import com.cscib.videorental.util.DateUtils;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,9 @@ public class RentMoviesService {
     private PaymentRepository paymentRepository;
 
     @Autowired
+    private PriceRuleManager priceRuleManager;
+
+    @Autowired
     private MovieService movieService;
 
 
@@ -43,6 +47,9 @@ public class RentMoviesService {
 
         Payment payment = paymentRepository.save(Payment.builder()
                 .rentals(rentals)
+                .amount(priceRuleManager.calculatePrice(rentals))
+                .currency(priceRuleManager.getCurrency())
+                .paidAmountOn(DateUtils.getCurrentTime())
                 .build());
 
         Client client = clientRepository.save(Client.builder()

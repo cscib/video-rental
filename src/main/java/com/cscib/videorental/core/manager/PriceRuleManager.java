@@ -3,6 +3,7 @@ package com.cscib.videorental.core.manager;
 import com.cscib.videorental.core.service.PricingCategoryService;
 import com.cscib.videorental.data.DataLoader;
 import com.cscib.videorental.data.model.PriceCategory;
+import com.cscib.videorental.data.model.Rental;
 import com.cscib.videorental.data.model.enums.MovieCategoryEnum;
 import com.cscib.videorental.data.model.enums.ProductCategoryEnum;
 import com.cscib.videorental.exception.DataLoadingException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -41,6 +43,22 @@ public class PriceRuleManager {
 
     }
 
+    public BigDecimal calculatePrice(List<Rental> rentals) {
+//        switch (movieCategory) {
+//            case NEW_RELEASE:
+//                return premiumPrice.multiply(new BigDecimal(rentalDays));
+//            case REGULAR:
+//                return basicPrice.add((rentalDays-3) > 0 ? new BigDecimal(rentalDays - 3).multiply(basicPrice)
+//                        : new BigDecimal(0));
+//            case OLD:
+//                return basicPrice.add((rentalDays-5) > 0 ? new BigDecimal(rentalDays - 5).multiply(basicPrice)
+//                        : new BigDecimal(0));
+//            default:
+//                return new BigDecimal(0);
+//        }
+        return new BigDecimal(0);
+    }
+
     public BigDecimal calculatePrice(MovieCategoryEnum movieCategory, int rentalDays) {
         switch (movieCategory) {
             case NEW_RELEASE:
@@ -56,5 +74,10 @@ public class PriceRuleManager {
         }
     }
 
+    public String getCurrency() {
+
+        return "SEK";
+
+    }
 }
 
