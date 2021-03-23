@@ -19,11 +19,7 @@ public class Movie {
     private List<Rental> rentals;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="price_category_id",foreignKey = @ForeignKey(name = "FK_category_price_movie"))
-    private PriceCategory price_category;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    // NEW RELEASE / REGULAR / OLD  & the Points Per Bonus Category
     private BonusCategory bonus_category;
-
 }
 

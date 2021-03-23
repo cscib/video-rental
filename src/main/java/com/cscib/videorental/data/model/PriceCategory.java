@@ -1,12 +1,12 @@
 package com.cscib.videorental.data.model;
 
+import com.univocity.parsers.annotations.Parsed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.util.List;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,17 +17,19 @@ import java.util.List;
 public class PriceCategory {
 
     @Id
-    private String id;
+    @Parsed
+    private Integer id;
 
-    @OneToMany(mappedBy="price_category")
-    private List<Movie> movies;
+    @Parsed
+    private BigDecimal amount;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "price_id",foreignKey = @ForeignKey(name = "FK_category_price"))
-    private Price price;
+    @Parsed
+    private String currency;
 
     // basic, premium
+    @Parsed
     private String type;
+
 
 
 }

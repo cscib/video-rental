@@ -1,5 +1,6 @@
 package com.cscib.videorental.data.model;
 
+import com.univocity.parsers.annotations.Parsed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,16 +18,17 @@ import java.util.List;
 public class BonusCategory {
 
     @Id
-    private String id;
+    @Parsed
+    private Integer id;
 
     @OneToMany(mappedBy="bonus_category")
     private List<Movie> movies;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bonus_id",foreignKey = @ForeignKey(name = "FK_category_price"))
-    private Bonus bonus;
+    @Parsed
+    private int points;
 
     // new release, regular, old
+    @Parsed
     private String type;
 
 

@@ -1,7 +1,8 @@
 package com.cscib.videorental.core.manager;
 
-import com.cscib.videorental.core.service.PricingService;
-import com.cscib.videorental.data.model.Price;
+import com.cscib.videorental.core.service.PricingCategoryService;
+import com.cscib.videorental.data.DataLoader;
+import com.cscib.videorental.data.model.PriceCategory;
 import com.cscib.videorental.data.model.enums.MovieCategoryEnum;
 import com.cscib.videorental.data.model.enums.ProductCategoryEnum;
 import com.cscib.videorental.exception.DataLoadingException;
@@ -16,17 +17,24 @@ import java.util.Map;
 public class PriceRuleManager {
 
     @Autowired
-    private PricingService pricingService;
+    private PricingCategoryService pricingService;
 
-    private Map<String, Price> productCategoryMap;
+    @Autowired
+    private DataLoader dataLoader;
+
+    private Map<Integer, PriceCategory> productCategoryMap;
 
     private BigDecimal basicPrice;
 
     private BigDecimal premiumPrice;
 
 
+
     @PostConstruct
     public void initialize() throws DataLoadingException {
+        if (dataLoader.isLoaded()) {
+            dataLoader.load();
+        }
         productCategoryMap = pricingService.createCategoryPriceMap();
         basicPrice =  productCategoryMap.get(ProductCategoryEnum.BASIC_PRICE.getId()).getAmount();
         premiumPrice =  productCategoryMap.get(ProductCategoryEnum.PREMIUM_PRICE.getId()).getAmount();
