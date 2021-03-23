@@ -4,9 +4,11 @@ import com.cscib.videorental.core.service.BonusService;
 import com.cscib.videorental.data.model.Bonus;
 import com.cscib.videorental.data.model.enums.MovieCategoryEnum;
 import com.cscib.videorental.data.model.enums.ProductCategoryEnum;
+import com.cscib.videorental.exception.DataLoadingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -16,15 +18,17 @@ public class BonusRuleManager {
     @Autowired
     private BonusService bonusService;
 
-    private final Map<String, Bonus> bonusCategoryMap;
+    private Map<String, Bonus> bonusCategoryMap;
 
-    private final int newReleasePoints;
+    private int newReleasePoints;
 
-    private final int regularPoints;
+    private int regularPoints;
 
-    private final int oldPoints;
+    private int oldPoints;
 
-    private BonusRuleManager() {
+
+    @PostConstruct
+    public void initialize() throws DataLoadingException {
         bonusCategoryMap = bonusService.createBonusCategoryMap();
         newReleasePoints = bonusCategoryMap.get(MovieCategoryEnum.NEW_RELEASE.getId()).getPoints();
         regularPoints = bonusCategoryMap.get(MovieCategoryEnum.REGULAR.getId()).getPoints();

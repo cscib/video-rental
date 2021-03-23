@@ -2,9 +2,8 @@ package com.cscib.videorental.data.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +15,15 @@ public class Movie {
     @Id
     private String name;
 
-    private Category category;
+    @OneToMany(mappedBy="movie")
+    private List<Rental> rentals;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="price_category_id",foreignKey = @ForeignKey(name = "FK_category_price_movie"))
+    private PriceCategory price_category;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private BonusCategory bonus_category;
 
 }
 

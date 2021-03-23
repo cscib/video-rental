@@ -23,7 +23,7 @@ public class Surcharge {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="id",foreignKey = @ForeignKey(name = "FK_payment_surcharges"))
+    @JoinColumn(name="payment_id",foreignKey = @ForeignKey(name = "FK_payment_surcharges"))
     private Payment payment;
 
     private BigDecimal amount;

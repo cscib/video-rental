@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
@@ -21,7 +19,9 @@ public class Price {
     @Id
     private String id;
 
-    private String category;
+
+    @OneToOne(mappedBy="price")
+    private PriceCategory category;
 
     private BigDecimal amount;
 

@@ -24,14 +24,16 @@ public class Rental {
     @GeneratedValue
     private Integer id;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="movie_id",foreignKey = @ForeignKey(name = "FK_movie_rentals"))
     private Movie movie;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="id",foreignKey = @ForeignKey(name = "FK_client_rentals"))
+    @JoinColumn(name="client_id",foreignKey = @ForeignKey(name = "FK_client_rentals"))
     private Client client;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="id",foreignKey = @ForeignKey(name = "FK_payment_rentals"))
+    @JoinColumn(name="payment_id",foreignKey = @ForeignKey(name = "FK_payment_rentals"))
     private Payment payment;
 
     private OffsetDateTime rentedOn;
@@ -41,7 +43,7 @@ public class Rental {
     private OffsetDateTime returnedOn;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "surcharge_id", referencedColumnName = "id")
     private Surcharge surcharge;
 
 }

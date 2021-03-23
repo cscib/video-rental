@@ -2,6 +2,7 @@ package com.cscib.videorental.core.service;
 
 import com.cscib.videorental.data.model.Bonus;
 import com.cscib.videorental.data.repository.BonusRepository;
+import com.cscib.videorental.exception.DataLoadingException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,10 +32,15 @@ public class BonusService {
         return Optional.of(bonusRepository.findAll()).orElseThrow(PersistenceException::new);
     }
 
-    public Map<String, Bonus> createBonusCategoryMap() {
+    public Map<String, Bonus> createBonusCategoryMap() throws DataLoadingException {
+        List<Bonus> bonuses = Optional.ofNullable(bonusRepository.findAll())
+                .orElseThrow(DataLoadingException::new);
+        if (bonuses.isEmpty()) throw new DataLoadingException();
+
         Map<String, Bonus> map = new HashMap<>();
-        bonusRepository.findAll()
-                .forEach(bonus -> map.put((bonus.getCategory().getId()), bonus));
+        bonuses.stream()
+        .forEach(bonus -> map.put((bonus.getCategory().getId()), bonus));
+
         return map;
     }
 }

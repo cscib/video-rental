@@ -20,12 +20,11 @@ public class Payment {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer ids;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="id",foreignKey = @ForeignKey(name = "FK_client_payments"))
+    @JoinColumn(name="client_id",foreignKey = @ForeignKey(name = "FK_client_payments"))
     private Client client;
-
 
     private BigDecimal amount;
 

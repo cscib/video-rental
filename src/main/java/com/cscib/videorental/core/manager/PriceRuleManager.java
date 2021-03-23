@@ -4,9 +4,11 @@ import com.cscib.videorental.core.service.PricingService;
 import com.cscib.videorental.data.model.Price;
 import com.cscib.videorental.data.model.enums.MovieCategoryEnum;
 import com.cscib.videorental.data.model.enums.ProductCategoryEnum;
+import com.cscib.videorental.exception.DataLoadingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -16,16 +18,19 @@ public class PriceRuleManager {
     @Autowired
     private PricingService pricingService;
 
-    private final Map<String, Price> productCategoryMap;
+    private Map<String, Price> productCategoryMap;
 
-    private final BigDecimal basicPrice;
+    private BigDecimal basicPrice;
 
-    private final BigDecimal premiumPrice;
+    private BigDecimal premiumPrice;
 
-    private PriceRuleManager() {
+
+    @PostConstruct
+    public void initialize() throws DataLoadingException {
         productCategoryMap = pricingService.createCategoryPriceMap();
         basicPrice =  productCategoryMap.get(ProductCategoryEnum.BASIC_PRICE.getId()).getAmount();
         premiumPrice =  productCategoryMap.get(ProductCategoryEnum.PREMIUM_PRICE.getId()).getAmount();
+
     }
 
     public BigDecimal calculatePrice(MovieCategoryEnum movieCategory, int rentalDays) {
