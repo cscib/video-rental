@@ -1,9 +1,12 @@
 package com.cscib.videorental.data;
 
 
+import com.cscib.videorental.data.init.MovieDTO;
 import com.cscib.videorental.data.model.BonusCategory;
+import com.cscib.videorental.data.model.Movie;
 import com.cscib.videorental.data.model.PriceCategory;
 import com.cscib.videorental.data.repository.BonusCategoryRepository;
+import com.cscib.videorental.data.repository.MovieRepository;
 import com.cscib.videorental.data.repository.PriceCategoryRepository;
 import com.univocity.parsers.csv.CsvParserSettings;
 import com.univocity.parsers.csv.CsvRoutines;
@@ -28,6 +31,9 @@ public class DataLoader {
     @Value("${data.price.path}")
     private String dataPricePath;
 
+    @Value("${data.movies.path}")
+    private String dataMoviePath;
+
     @Autowired
     private CsvParserSettings csvParserSettings;
 
@@ -36,6 +42,9 @@ public class DataLoader {
 
     @Autowired
     private PriceCategoryRepository priceRepository;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     private volatile boolean isLoaded = false;
 
@@ -65,6 +74,19 @@ public class DataLoader {
                 path = Paths.get(dataPricePath);
                 List<PriceCategory> prices = read(path, PriceCategory.class);
                 priceRepository.saveAll(prices);
+
+                // load movie data to repository
+                log.info("Reading Movie Data from {} and Storing to Repository.", dataMoviePath);
+                path = Paths.get(dataMoviePath);
+                List<MovieDTO> movieCategoryPairs = read(path,MovieDTO.class);
+                for (MovieDTO movieCategoryPair : movieCategoryPairs) {
+                    BonusCategory bonusCategory = bonusRepository.findByType(String.valueOf(movieCategoryPair.getBonusCategory()));
+                    Movie movie = new Movie();
+                    movie.setName(movieCategoryPair.getName());
+                    movie.setBonus_category(bonusCategory);
+                    movieRepository.save(movie);
+                }
+
 
                 isLoaded = true;
             }

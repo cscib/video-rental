@@ -1,5 +1,6 @@
 package com.cscib.videorental.data.model;
 
+import com.univocity.parsers.annotations.Parsed;
 import lombok.*;
 
 import javax.persistence.*;
