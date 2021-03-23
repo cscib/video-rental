@@ -1,9 +1,25 @@
 package com.cscib.videorental.util;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.time.*;
 
 public class DateUtils {
+
+    public static int calculateRentalDays(OffsetDateTime rentedOn, OffsetDateTime expectedReturnOn) {
+        OffsetDateTime rentedOnStartOfDay = OffsetDateTime.of(rentedOn.toLocalDateTime(), ZoneOffset.from(LocalTime.MIDNIGHT));
+        OffsetDateTime expectedReturnOnStartOfDay = OffsetDateTime.of(expectedReturnOn.toLocalDateTime(), ZoneOffset.from(LocalTime.MIDNIGHT));
+
+        return Period.between(rentedOnStartOfDay.toLocalDate(), expectedReturnOnStartOfDay.toLocalDate()).getDays();
+    }
+
+    public static int calculateSurchargeDays(OffsetDateTime rentedOn, OffsetDateTime expectedReturnOn, OffsetDateTime returnedOn) {
+
+        if (expectedReturnOn.isBefore(returnedOn)) {
+            return calculateRentalDays(expectedReturnOn, returnedOn);
+        }
+        return 0;
+    }
+
+
 
     public enum ZoneIdEnum{
         GMT("GMT"),

@@ -26,14 +26,9 @@ public class Surcharge {
     @JoinColumn(name="payment_id",foreignKey = @ForeignKey(name = "FK_payment_surcharges"))
     private Payment payment;
 
-    private BigDecimal amount;
-
     private String currency;
 
-    private BigDecimal surcharge;
-
-    @Column(name="paid_amount")
-    private OffsetDateTime paidAmountOn;
+    private BigDecimal amount;
 
     @Column(name="paid_surcharge")
     private OffsetDateTime paidSurchargeOn;

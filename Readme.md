@@ -28,7 +28,10 @@ mysql -u video -p --protocol=TCP --port=3309
 
 ## Assumptions
 -----------------
-1. A person will return all the items rented at one go not x items today and y items tomorrow.
+1. A client ID is his ID Card or Passport Number
+2. If a client chooses the videos to rent that means they're physically available at the shop.
+3. Thought the currency can be customized the shop only accomdates a single currency
+4. The bonus points and prices for Premium & Basic can be customized through csv files.
 
 ## Movies API
 
