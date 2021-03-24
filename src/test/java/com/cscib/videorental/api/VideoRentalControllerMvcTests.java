@@ -3,20 +3,10 @@ package com.cscib.videorental.api;
 import com.cscib.videorental.api.dto.PaymentDTO;
 import com.cscib.videorental.api.dto.RentMoviesDTO;
 import com.cscib.videorental.api.dto.RentMoviesResponseDTO;
-import com.cscib.videorental.api.dto.RentalDTO;
-import com.cscib.videorental.core.service.MovieService;
 import com.cscib.videorental.core.service.RentMoviesService;
-import com.cscib.videorental.data.model.Movie;
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -29,9 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -46,7 +33,7 @@ public class VideoRentalControllerMvcTests extends AbstractControllerTest {
 
     private PaymentDTO paymentDTO = new PaymentDTO(new BigDecimal(10.50),"EURO");
 
-    private RentMoviesDTO rentMoviesDTO = mapFromJson("{\"clientId\":\"555666M\", \"rented\":[{\"movie\":\"Matrix 11\",\"rentedOn\":null,\"expectedReturnOn\":null},{\"movie\":\"Spider Man\",\"rentedOn\":null,\"expectedReturnOn\":null}]}"
+    private RentMoviesDTO rentMoviesDTO = mapFromJson("{\"clientId\":\"555666M\", \"rented\":[{\"movie\":\"Matrix 11\",\"rentedOn\":\"2021-03-21@07:53:34.740+0000\",\"expectedReturnOn\":\"2021-03-21@07:53:34.740+0000\"},{\"movie\":\"Spider Man\",\"rentedOn\":\"2021-03-21@07:53:34.740+0000\",\"expectedReturnOn\":\"2021-03-21@07:53:34.740+0000\"}]}"
             ,RentMoviesDTO.class);
     private RentMoviesResponseDTO rentMoviesDTOResponse = new RentMoviesResponseDTO(rentMoviesDTO.getClientId(),paymentDTO,rentMoviesDTO.getRented());
 
@@ -69,7 +56,6 @@ public class VideoRentalControllerMvcTests extends AbstractControllerTest {
 
         log.info("Test getMovie result - {}.",result.getResponse()
                 .getContentAsString());
-
         JSONAssert.assertEquals(mapToJson(rentMoviesDTOResponse), result.getResponse()
                 .getContentAsString(), false);
     }
