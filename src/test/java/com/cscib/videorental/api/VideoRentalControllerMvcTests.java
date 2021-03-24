@@ -8,6 +8,8 @@ import com.cscib.videorental.core.service.MovieService;
 import com.cscib.videorental.core.service.RentMoviesService;
 import com.cscib.videorental.data.model.Movie;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -49,7 +51,7 @@ public class VideoRentalControllerMvcTests extends AbstractControllerTest {
     private RentMoviesResponseDTO rentMoviesDTOResponse = new RentMoviesResponseDTO(rentMoviesDTO.getClientId(),paymentDTO,rentMoviesDTO.getRented());
 
 
-    public VideoRentalControllerMvcTests() throws JsonProcessingException {
+    public VideoRentalControllerMvcTests() throws IOException {
     }
 
     @Test
