@@ -15,4 +15,11 @@ public enum MovieCategoryEnum {
 
     private String desc;
 
+    public static MovieCategoryEnum valueOf(int id) {
+        for (MovieCategoryEnum mEnum : MovieCategoryEnum.values()) {
+            if (mEnum.id == id) return mEnum;
+        }
+        return null;
+    }
+
 }
