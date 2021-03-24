@@ -84,11 +84,8 @@ public class PriceRuleManager {
     }
 
     public String getCurrency() {
-
         return currency;
-
     }
-
 
     public BigDecimal calculateSurcharge(Rental r) {
 

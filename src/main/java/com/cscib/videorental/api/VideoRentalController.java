@@ -29,15 +29,5 @@ public class VideoRentalController {
     public ReturnMoviesResponseDTO returnMovie(@RequestBody ReturnMoviesDTO returnMoviesDTO) {
         return rentMoviesService.returnMovies(returnMoviesDTO);
     }
-//
-//    @GetMapping("/v1/rental/all")
-//    Movie getMovie(@PathVariable String movieId) {
-//        return movieService.getMovie(movieId);
-//    }
-//
-//    @GetMapping("/v1/rental/{movieId}")
-//    List<Movie> getMovies() {
-//        return movieService.getMovies();
-//    }
 
 }

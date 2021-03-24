@@ -47,20 +47,15 @@ public class BonusRuleManager {
     public int calculateBonus(List<Rental> rentals) {
 
         int bonus = 0;
-        rentals.stream()
-                .map(r-> bonus + calculateBonus(r));
-
+        for (Rental rental : rentals) {
+            MovieCategoryEnum moveCategory = MovieCategoryEnum.valueOf(rental.getMovie().getBonus_category().getId());
+            bonus = bonus + calculateBonus(moveCategory);
+        }
         return bonus;
     }
 
 
-    public int calculateBonus(Rental rental) {
-        MovieCategoryEnum moveCategory = MovieCategoryEnum.valueOf(rental.getMovie().getBonus_category().getId());
-        return calculateBonus(moveCategory);
-    }
-
-
-    public int calculateBonus(MovieCategoryEnum movieCategory) {
+    private int calculateBonus(MovieCategoryEnum movieCategory) {
         switch (movieCategory) {
             case NEW_RELEASE:
                 return newReleasePoints;
