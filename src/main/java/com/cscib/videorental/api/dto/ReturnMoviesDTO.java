@@ -15,7 +15,5 @@ public class ReturnMoviesDTO  {
 
     private String clientId;
 
-    private List<RentalDTO> returned;
-
-
+    private List<String> returned;
 }

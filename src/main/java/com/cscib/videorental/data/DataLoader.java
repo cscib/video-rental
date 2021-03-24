@@ -86,8 +86,6 @@ public class DataLoader {
                     movie.setBonus_category(bonusCategory);
                     movieRepository.save(movie);
                 }
-
-
                 isLoaded = true;
             }
         }

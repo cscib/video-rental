@@ -11,41 +11,48 @@ The basic features of the product are:
  - Price calculation for rentals
  - Tracking customers' “bonus” points
 
-## Build
-
-1. First build the project to generate a Fat Jar & build the docker image using the Jar file.
-
-gradle build && docker build -t java-app/latest .
-
-2. To launch on docker (Spring Boot and MySQL processes)
-
-docker-compose up -d
-
-## Additional Checks
------------------
-1. To check DB instance [use password 'video123!']
-mysql -u video -p --protocol=TCP --port=3309
-
 ## Assumptions
 -----------------
 1. A client ID is his ID Card or Passport Number
 2. If a client chooses the videos to rent that means they're physically available at the shop.
-3. Thought the currency can be customized the shop only accomdates a single currency
+3. Thought the currency can be customized the shop only supports a single currency
 4. The bonus points and prices for Premium & Basic can be customized through csv files.
+
+
+## Build
+
+1. First build the project to generate a Fat Jar.
+
+gradle build
+
+2. Run the jar file in /build/libs library)
+
+## Additional Checks
+-----------------
+
+1. CRest API Health Check
+http://localhost:8080/swagger-ui.html?
+
 
 ## Movies API
 
- - `POST    /v1/movie/create`
- - `GET     /v1//movie/all`
- - `GET     /v1//movie/{movieId}`
-
+ - `POST    /v1/rental/rent`
+ - `POST     /v1/rental/return`
 
 ## Example
 
 To create a movie:
 
-`curl -H "Content-Type: application/json" -X POST --data-binary @movie.json http://localhost:8080/v1/movie/create`
+`curl -H "Content-Type: application/json" -X POST --data-binary @movie.json http://localhost:8080/v1/rental/rent`
 
-Returned:
+Sample payload for /v1/rental/rent:
 
-{"clientId":"555666M", "rented":[{"movie":"Matrix 11","rentedOn":"2021-03-18@07:53:34.740+0000","expectedReturnOn":"2021-03-21@07:53:34.740+0000"},{"movie":"Spider Man","rentedOn":"2021-03-18@07:53:34.740+0000","expectedReturnOn":"2021-03-21@07:53:34.740+0000"}]
+{"clientId":"555666M", "rented":[{"movie":"Matrix 11","rentedOn":"2021-03-18@07:53:34.740+0000","expectedReturnOn":"2021-03-21@07:53:34.740+0000"},{"movie":"Spider Man","rentedOn":"2021-03-18@07:53:34.740+0000","expectedReturnOn":"2021-03-21@07:53:34.740+0000"}]}
+
+{"clientId": "555666M","returned": [{
+      "expectedReturnOn": "yyyy-MM-dd@HH:mm:ss.SSSZ",
+      "movie": "Matrix 11",
+      "rentedOn": "2021-03-18@07:53:34.740+0000"
+    }
+  ]
+}

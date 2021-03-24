@@ -28,13 +28,8 @@ public class Payment {
 
     private String currency;
 
-    private BigDecimal surcharge;
-
     @Column(name="paid_amount")
     private OffsetDateTime paidAmountOn;
-
-    @Column(name="paid_surcharge")
-    private OffsetDateTime paidSurchargeOn;
 
     @OneToMany(mappedBy="payment")
     private List<Rental> rentals;

@@ -69,9 +69,11 @@ public class RentMoviesMapper {
 
         // Calculate Total Surcharge & Map RentMoviesResponseDTO
         BigDecimal surcharge = new BigDecimal(0);
-        rentals.stream()
-                .filter(r->r.getSurcharge() != null)
-                .map(r-> surcharge.add(r.getSurcharge().getAmount()));
+        for (Rental r: rentals) {
+            if (r.getSurcharge() != null) {
+                surcharge = surcharge.add(r.getSurcharge().getAmount());
+            }
+        }
 
         // Return ReturnMoviesResponseDTO
         return ReturnMoviesResponseDTO

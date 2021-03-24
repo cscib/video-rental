@@ -12,13 +12,6 @@ import java.io.IOException;
 
 public abstract class AbstractControllerTest {
 
-//    protected String mapToJson(Object obj) {
-//        return new Gson().toJson(obj);
-//    }
-//    protected <T> T mapFromJson(String json, Class<T> clazz) {
-//       return new Gson().fromJson(json,clazz);
-//    }
-
     protected String mapToJson(Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule())

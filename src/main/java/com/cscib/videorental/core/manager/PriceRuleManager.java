@@ -9,6 +9,7 @@ import com.cscib.videorental.data.model.enums.MovieCategoryEnum;
 import com.cscib.videorental.data.model.enums.ProductCategoryEnum;
 import com.cscib.videorental.exception.DataLoadingException;
 import com.cscib.videorental.util.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class PriceRuleManager {
 
@@ -48,15 +50,19 @@ public class PriceRuleManager {
     }
 
     public BigDecimal calculatePrice(List<Rental> rentals) {
+        log.info("Calculating price ");
 
         BigDecimal payment = new BigDecimal(0);
-        rentals.stream()
-                .map(r-> payment.add(calculatePrice(r)));
-
+        for (Rental rental :
+                rentals) {
+            payment = payment.add(calculatePrice(rental));
+        }
         return payment;
     }
 
     public BigDecimal calculatePrice(Rental rental) {
+        log.info("[{}] Calculating price for {} rental {} ",rental.getClient(), rental.getMovie().getBonus_category().getId(),
+                rental.getMovie().getName());
         MovieCategoryEnum moveCategory = MovieCategoryEnum.valueOf(rental.getMovie().getBonus_category().getId());
         int rentalDays = DateUtils.calculateRentalDays(rental.getRentedOn(), rental.getExpectedReturnOn());
         return calculatePrice(moveCategory, rentalDays);
@@ -83,27 +89,8 @@ public class PriceRuleManager {
 
     }
 
-    public List<Surcharge> calculateSurcharges(List<Rental> rentals) {
 
-        BigDecimal payment = new BigDecimal(0);
-        return rentals.stream()
-                .filter(r->DateUtils.calculateSurchargeDays(r.getRentedOn(), r.getExpectedReturnOn(), r.getReturnedOn()) > 0)
-                .map(r-> createSurcharge(r))
-                .collect(Collectors.toList());
-
-    }
-
-    private Surcharge createSurcharge(Rental r) {
-        return Surcharge.builder()
-                .currency(currency)
-                .paidSurchargeOn(DateUtils.getCurrentTime())
-                .amount(calculateSurcharge(r))
-                .payment(r.getPayment())
-                .rental(r)
-                .build();
-    }
-
-    private BigDecimal calculateSurcharge(Rental r) {
+    public BigDecimal calculateSurcharge(Rental r) {
 
         int totalDays = DateUtils.calculateRentalDays(r.getRentedOn(), r.getReturnedOn());
         if (totalDays >=1) {
