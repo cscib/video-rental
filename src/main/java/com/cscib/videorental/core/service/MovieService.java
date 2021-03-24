@@ -22,7 +22,8 @@ public class MovieService {
     }
 
     public Movie getMovie(String movieId){
-        return Optional.of(movieRepository.getOne(movieId)).orElseThrow(PersistenceException::new);
+        return movieRepository.findById(movieId)
+                .orElseThrow(PersistenceException::new);
     }
 
     public List<Movie> getMovies() {

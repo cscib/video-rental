@@ -53,24 +53,26 @@ public class RentMoviesService {
     public RentMoviesResponseDTO rentMovies(RentMoviesDTO rentMoviesDTO) throws Exception {
 
         // Save / Update client with new bonus info
-        Client client = Optional.ofNullable(clientRepository.getOne(rentMoviesDTO.getClientId()))
+        Client client = clientRepository.findById(rentMoviesDTO.getClientId())
                 .orElse(clientRepository.save(Client.builder()
                         .id(rentMoviesDTO.getClientId())
                         .bonusPoints(0)
                         .build()));
 
-        // Save new video rentals
-        List<Rental> rentals = rentalRepository.saveAll(rentMoviesDTO.getRented().stream()
-                .map(r-> saveRental(r, client))
-                .collect(Collectors.toList()));
-
         // Save payment with calculated payment info
         Payment payment = paymentRepository.save(Payment.builder()
-                .rentals(rentals)
-                .amount(priceRuleManager.calculatePrice(rentals))
+                .client(client)
                 .currency(priceRuleManager.getCurrency())
                 .paidAmountOn(DateUtils.getCurrentTime())
                 .build());
+
+        // Save new video rentals
+        List<Rental> rentals = saveRentals(rentMoviesDTO, client, payment);
+
+        // Save payment with calculated payment info
+        payment.setAmount(priceRuleManager.calculatePrice(rentals));
+        payment.setRentals(rentals);
+        payment = paymentRepository.save(payment);
 
 
         int bonusPoints = client.getBonusPoints();
@@ -80,6 +82,12 @@ public class RentMoviesService {
                 .build());
 
         return RentMoviesMapper.mapToRentMoviesResponseDTO(rentals);
+    }
+
+    private List<Rental> saveRentals(RentMoviesDTO rentMoviesDTO, Client client, Payment payment) {
+        return rentMoviesDTO.getRented().stream()
+                .map(r-> saveRental(r, client, payment))
+                .collect(Collectors.toList());
     }
 
     public ReturnMoviesResponseDTO returnMovies(ReturnMoviesDTO returnMoviesDTO) throws Exception {
@@ -106,9 +114,10 @@ public class RentMoviesService {
         return null;
     }
 
-    public Rental saveRental(RentalDTO rentalDTO, Client client) {
+    public Rental saveRental(RentalDTO rentalDTO, Client client, Payment payment) {
         Rental rental = Rental.builder()
                 .client(client)
+                .payment(payment)
                 .movie(movieService.getMovie(rentalDTO.getMovie()))
                 .rentedOn(rentalDTO.getRentedOn())
                 .expectedReturnOn(rentalDTO.getExpectedReturnOn())

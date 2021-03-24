@@ -48,3 +48,4 @@ To create a movie:
 
 Returned:
 
+{"clientId":"555666M", "rented":[{"movie":"Matrix 11","rentedOn":"2021-03-18@07:53:34.740+0000","expectedReturnOn":"2021-03-21@07:53:34.740+0000"},{"movie":"Spider Man","rentedOn":"2021-03-18@07:53:34.740+0000","expectedReturnOn":"2021-03-21@07:53:34.740+0000"}]
